@@ -1,0 +1,46 @@
+name: testNet
+description: "Network to test out all features and ideas"
+version: "1.0"
+
+client:
+    organization: Org
+    connection:
+      timeout:
+        peer:
+          endorser: 300
+          eventHub: 300
+          eventReg: 300
+        orderer: 300
+
+channels:
+  testchannel:
+    orderers:
+      - orderer
+    peers:
+      peer-org:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+organizations:
+  Org:
+    mspid: orgMSP
+    peers:
+      - peer-org
+
+orderers:
+  orderer:
+    url: grpcs://localhost:7050
+    grpcOptions:
+      ssl-target-name-override: orderer.testnetwork.com
+    tlsCACerts:
+      path: /home/taipan/workspace/ccllp/fabric-ca-net/network/certs/ordererorg/msp/tlscacerts/ca.pem
+
+peers:
+  peer-org:
+    url: grpcs://localhost:7051
+    grpcOptions:
+      ssl-target-name-override: peer.testnetwork.com
+    tlsCACerts:
+      path: /home/taipan/workspace/ccllp/fabric-ca-net/network/certs/peerorg/msp/tlscacerts/ca.pem
